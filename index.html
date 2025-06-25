@@ -1,4 +1,651 @@
->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cre:Tuan_Fix_Lag and TK - LOGIN UGPHONE VIP 2.4.1</title>
+    <style>
+        /* === RESET & CƠ BẢN === */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        html {
+            -webkit-text-size-adjust: 100%;
+            height: 100%;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #00a2ff, #0066ff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+            touch-action: manipulation;
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #003366, #001a33);
+            color: #eee;
+        }
+
+        /* === DÒNG CHỮ CHẠY === */
+        .marquee {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffde59;
+            padding: 12px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-bottom: 2px solid #ff9900;
+        }
+
+        body.dark-mode .marquee {
+            background-color: #ffcc00;
+            color: #222;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* === KHUNG CHÍNH === */
+        .main-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            margin: 70px 0 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body.dark-mode .main-container {
+            background-color: #222;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* === HEADER === */
+        .header {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+        }
+
+        body.dark-mode .header {
+            background-color: #333;
+            border-bottom-color: #444;
+        }
+
+        h1 {
+            color: #e60012;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* === NÚT ĐÓNG (X) === */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #666;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background-color: #eee;
+            color: #333;
+        }
+
+        body.dark-mode .close-btn {
+            color: #aaa;
+        }
+
+        body.dark-mode .close-btn:hover {
+            background-color: #444;
+            color: #fff;
+        }
+
+        /* === NỘI DUNG === */
+        .content {
+            padding: 25px;
+        }
+
+        /* === NÚT BẤM === */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: block;
+            background-color: #06f;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #0051cc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-orange {
+            background-color: #ff6b00;
+        }
+
+        .btn-orange:hover {
+            background-color: #e05e00;
+        }
+
+        .btn-green {
+            background-color: #00b300;
+        }
+
+        .btn-green:hover {
+            background-color: #009900;
+        }
+
+        .btn-blue {
+            background-color: #3b5998;
+        }
+
+        .btn-blue:hover {
+            background-color: #344e86;
+        }
+
+        /* === FORM NHẬP === */
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        body.dark-mode label {
+            color: #ddd;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+            background-color: white;
+            color: #333;
+        }
+
+        body.dark-mode input,
+        body.dark-mode select {
+            background-color: #333;
+            border-color: #444;
+            color: #eee;
+        }
+
+        input:focus, select:focus {
+            border-color: #06f;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,102,255,0.2);
+        }
+
+        body.dark-mode input:focus,
+        body.dark-mode select:focus {
+            box-shadow: 0 0 0 3px rgba(0,102,255,0.5);
+        }
+
+        /* === GHI CHÚ === */
+        .note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+            display: block;
+            line-height: 1.4;
+        }
+
+        body.dark-mode .note {
+            color: #aaa;
+        }
+
+        /* === LINK === */
+        .link {
+            color: #06f;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 5px rgba(0,102,255,0.2);
+        }
+
+        body.dark-mode .link {
+            color: #4da6ff;
+        }
+
+        /* === CHECKBOX LƯU ĐĂNG NHẬP === */
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .remember-me input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        /* === DIVIDER === */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        body.dark-mode .divider {
+            color: #666;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .divider::before,
+        body.dark-mode .divider::after {
+            border-bottom-color: #444;
+        }
+
+        .divider::before {
+            margin-right: 10px;
+        }
+
+        .divider::after {
+            margin-left: 10px;
+        }
+
+        /* === NÚT CHẾ ĐỘ SÁNG/TỐI === */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #06f;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            font-size: 20px;
+        }
+
+        .theme-toggle:hover {
+            background-color: #0051cc;
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .theme-toggle {
+            background-color: #333;
+            color: #ffcc00;
+        }
+
+        /* === ẨN/HIỆN === */
+        .hidden {
+            display: none;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .marquee-content {
+                font-size: 13px;
+            }
+            
+            .main-container {
+                margin: 60px 0 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 12px;
+            }
+            
+            .theme-toggle {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- DÒNG CHỮ CHẠY -->
+    <div class="marquee">
+        <div class="marquee-content">
+            ĐĂNG KÍ KÊNH TUAN_FIX_LAG CHƯAA=))😜
+        </div>
+    </div>
+    
+    <!-- TRANG CHÍNH -->
+    <div id="main-page" class="main-container">
+        <div class="header">
+            <h1>LOGIN UGPHONE v2.4.1</h1>
+        </div>
+        <div class="content">
+            <div class="btn-container">
+                <button class="btn btn-orange" onclick="showSignupPage()">Tạo Tài khoản</button>
+                <button class="btn" onclick="showLoginPage()">Đăng nhập</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TRANG ĐĂNG KÝ -->
+    <div id="signup-page" class="main-container hidden">
+        <div class="header">
+            <h1>Tạo Tài khoản</h1>
+            <button class="close-btn" onclick="showMainPage()">×</button>
+        </div>
+        <div class="content">
+            <form id="signup-form" onsubmit="signup(event)">
+                <div class="form-group">
+                    <label for="age">Độ tuổi</label>
+                    <input type="number" id="age" name="age" min="12" max="100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Tên người dùng</label>
+                    <input type="text" id="username" name="username" required>
+                    <span class="note">Không dùng tên thật của bạn</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" minlength="8" required>
+                    <span class="note">Tối thiểu 8 ký tự</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Giới tính (tùy chọn)</label>
+                    <select id="gender" name="gender">
+                        <option value="">Chọn giới tính</option>
+                        <option value="male">Nam</option>
+                        <option value="female">Nữ</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-orange">Tạo Tài khoản</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- TRANG ĐĂNG NHẬP -->
+    <div id="login-page" class="main-container hidden">
+        <div class="header">
+            <h1>ĐĂNG NHẬP UGPHONE</h1>
+            <button class="close-btn" onclick="showMainPage()">×</button>
+        </div>
+        <div class="content">
+            <form id="login-form" onsubmit="login(event)">
+                <div class="form-group">
+                    <label for="login-id">Tên người dùng/Email/Số điện thoại</label>
+                    <input type="text" id="login-id" name="login-id" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Mật khẩu</label>
+                    <input type="password" id="login-password" name="login-password" required>
+                </div>
+                
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember" checked>
+                    <label for="remember">Ghi nhớ đăng nhập</label>
+                </div>
+                
+                <button type="submit" class="btn">Đăng nhập</button>
+                
+                <div class="divider">HOẶC</div>
+                
+                <button type="button" class="btn btn-green">Gửi mã qua email</button>
+                <button type="button" class="btn btn-blue" style="margin-top: 15px;">Đăng Nhập Nhanh</button>
+                
+                <a href="#" class="link" onclick="forgotPassword()">Quên mật khẩu hoặc tên đăng nhập?</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- NÚT CHUYỂN ĐỔI CHẾ ĐỘ SÁNG/TỐI -->
+    <button class="theme-toggle" onclick="toggleDarkMode()">☀️</button>
+
+    <script>
+        // === 10 TÀI KHOẢN MẪU ===
+        const VALID_ACCOUNTS = {
+            "Tuan_Fix_Lag": "09090909",
+            "Trwg_bell": "Truongbyebell",
+            "Nguyenanhthu2007": "nguyenanhthu1032007",
+            "QuangVinh": "Quangvinh191213",
+            "Ductri": "16032012",
+            "SuperUser": "Super5678",
+            "PlayerOne": "Play1One",
+            "BestGamer": "GamerBest",
+            "TopPlayer": "Top123456",
+            "UGVIP": "UGPhoneVIP"
+        };
+
+        // === CHỐNG ZOOM TRÊN MOBILE ===
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+        
+        // === CHỐNG DOUBLE TAP ZOOM ===
+        let lastTap = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTap <= 300) e.preventDefault();
+            lastTap = now;
+        }, { passive: false });
+
+        // === KIỂM TRA ĐĂNG NHẬP ĐÃ LƯU ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra chế độ tối
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').innerHTML = '🌙';
+            }
+            
+            // Kiểm tra đăng nhập đã lưu
+            const savedLogin = JSON.parse(localStorage.getItem('ugphone_login'));
+            if (savedLogin && savedLogin.username) {
+                if (VALID_ACCOUNTS[savedLogin.username] === savedLogin.password) {
+                    autoLogin(savedLogin.username, savedLogin.password);
+                } else {
+                    localStorage.removeItem('ugphone_login');
+                }
+            }
+        });
+
+        // === TỰ ĐỘNG ĐĂNG NHẬP ===
+        function autoLogin(username, password) {
+            document.getElementById('login-id').value = username;
+            document.getElementById('login-password').value = password;
+            showLoginPage();
+            
+            // Hiển thị thông báo đang tự động đăng nhập
+            setTimeout(() => {
+                loginSuccess(username);
+            }, 1000);
+        }
+
+        // === CHUYỂN TRANG ===
+        function showMainPage() {
+            document.getElementById('main-page').classList.remove('hidden');
+            document.getElementById('signup-page').classList.add('hidden');
+            document.getElementById('login-page').classList.add('hidden');
+        }
+
+        function showSignupPage() {
+            document.getElementById('main-page').classList.add('hidden');
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('signup-page').classList.remove('hidden');
+        }
+
+        function showLoginPage() {
+            document.getElementById('main-page').classList.add('hidden');
+            document.getElementById('signup-page').classList.add('hidden');
+            document.getElementById('login-page').classList.remove('hidden');
+        }
+
+        // === XỬ LÝ ĐĂNG KÝ ===
+        function signup(event) {
+            event.preventDefault();
+            
+            const age = document.getElementById('age').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (password.length < 8) {
+                alert("Mật khẩu phải có ít nhất 8 ký tự!");
+                return;
+            }
+            
+            // Lưu tài khoản mới (trong demo chỉ lưu tạm)
+            VALID_ACCOUNTS[username] = password;
+            
+            alert("Đăng ký thành công! Vui lòng đăng nhập.");
+            showLoginPage();
+        }
+
+        // === XỬ LÝ ĐĂNG NHẬP ===
+        function login(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('login-id').value;
+            const password = document.getElementById('login-password').value;
+            const remember = document.getElementById('remember').checked;
+            
+            // Kiểm tra tài khoản
+            if (VALID_ACCOUNTS[username] === password) {
+                if (remember) {
+                    // Lưu thông tin đăng nhập
+                    localStorage.setItem('ugphone_login', JSON.stringify({
+                        username: username,
+                        password: password
+                    }));
+                } else {
+                    // Xóa thông tin đăng nhập đã lưu
+                    localStorage.removeItem('ugphone_login');
+                }
+                
+                loginSuccess(username);
+            } else {
+                alert("Sai tên đăng nhập hoặc mật khẩu!");
+            }
+        }
+
+        // === ĐĂNG NHẬP THÀNH CÔNG ===
+        function loginSuccess(username) {
+            alert(`Chào mừng ${username} đã quay trở lại UGPHONE VIP!`);
+            window.location.href = "https://sdrake5699.github.io/Xtab-Vip/";
+        }
+
+        // === QUÊN MẬT KHẨU ===
+        function forgotPassword() {
+            window.location.href = "https://notevn.com/qggw9ezt";
+        }
+
+        // === CHẾ ĐỘ SÁNG/TỐI ===
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '🌙';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                themeToggle.innerHTML = '☀️';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+    </script>
 </body>
-</htm
-<script>document.write(unescape('%3C%21%44%4F%43%54%59%50%45%20%68%74%6D%6C%3E%0A%3C%68%74%6D%6C%20%6C%61%6E%67%3D%22%76%69%22%3E%0A%3C%68%65%61%64%3E%0A%20%20%20%20%3C%6D%65%74%61%20%63%68%61%72%73%65%74%3D%22%55%54%46%2D%38%22%3E%0A%20%20%20%20%3C%6D%65%74%61%20%6E%61%6D%65%3D%22%76%69%65%77%70%6F%72%74%22%20%63%6F%6E%74%65%6E%74%3D%22%77%69%64%74%68%3D%64%65%76%69%63%65%2D%77%69%64%74%68%2C%20%69%6E%69%74%69%61%6C%2D%73%63%61%6C%65%3D%31%2E%30%2C%20%6D%61%78%69%6D%75%6D%2D%73%63%61%6C%65%3D%31%2E%30%2C%20%75%73%65%72%2D%73%63%61%6C%61%62%6C%65%3D%6E%6F%22%3E%0A%20%20%20%20%3C%74%69%74%6C%65%3E%43%72%65%3A%54%75%61%6E%5F%46%69%78%5F%4C%61%67%20%61%6E%64%20%54%4B%20%2D%20%4C%4F%47%49%4E%20%55%47%50%48%4F%4E%45%20%56%49%50%20%32%2E%34%2E%31%3C%2F%74%69%74%6C%65%3E%0A%20%20%20%20%3C%73%74%79%6C%65%3E%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%52%45%53%45%54%20%26%20%43Ơ%20%42Ả%4E%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%69%7A%69%6E%67%3A%20%62%6F%72%64%65%72%2D%62%6F%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%72%67%69%6E%3A%20%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%77%65%62%6B%69%74%2D%74%61%70%2D%68%69%67%68%6C%69%67%68%74%2D%63%6F%6C%6F%72%3A%20%74%72%61%6E%73%70%61%72%65%6E%74%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%69%74%69%6F%6E%3A%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%20%30%2E%33%73%2C%20%63%6F%6C%6F%72%20%30%2E%33%73%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%68%74%6D%6C%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%77%65%62%6B%69%74%2D%74%65%78%74%2D%73%69%7A%65%2D%61%64%6A%75%73%74%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%68%65%69%67%68%74%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%62%6F%64%79%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%66%61%6D%69%6C%79%3A%20%27%53%65%67%6F%65%20%55%49%27%2C%20%52%6F%62%6F%74%6F%2C%20%41%72%69%61%6C%2C%20%73%61%6E%73%2D%73%65%72%69%66%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%6C%69%6E%65%61%72%2D%67%72%61%64%69%65%6E%74%28%31%33%35%64%65%67%2C%20%23%30%30%61%32%66%66%2C%20%23%30%30%36%36%66%66%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6C%65%78%2D%64%69%72%65%63%74%69%6F%6E%3A%20%63%6F%6C%75%6D%6E%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%61%6C%69%67%6E%2D%69%74%65%6D%73%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6A%75%73%74%69%66%79%2D%63%6F%6E%74%65%6E%74%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%69%6E%2D%68%65%69%67%68%74%3A%20%31%30%30%76%68%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%33%33%33%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%6F%75%63%68%2D%61%63%74%69%6F%6E%3A%20%6D%61%6E%69%70%75%6C%61%74%69%6F%6E%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6F%76%65%72%66%6C%6F%77%2D%78%3A%20%68%69%64%64%65%6E%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%6C%69%6E%65%61%72%2D%67%72%61%64%69%65%6E%74%28%31%33%35%64%65%67%2C%20%23%30%30%33%33%36%36%2C%20%23%30%30%31%61%33%33%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%65%65%65%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%44%D2%4E%47%20%43%48Ữ%20%43%48Ạ%59%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%6D%61%72%71%75%65%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%6F%73%69%74%69%6F%6E%3A%20%66%69%78%65%64%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%6F%70%3A%20%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6C%65%66%74%3A%20%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%66%66%64%65%35%39%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%31%32%70%78%20%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%68%69%74%65%2D%73%70%61%63%65%3A%20%6E%6F%77%72%61%70%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6F%76%65%72%66%6C%6F%77%3A%20%68%69%64%64%65%6E%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%32%70%78%20%35%70%78%20%72%67%62%61%28%30%2C%30%2C%30%2C%30%2E%31%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7A%2D%69%6E%64%65%78%3A%20%31%30%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%62%6F%74%74%6F%6D%3A%20%32%70%78%20%73%6F%6C%69%64%20%23%66%66%39%39%30%30%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%2E%6D%61%72%71%75%65%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%66%66%63%63%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%32%32%32%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%6D%61%72%71%75%65%65%2D%63%6F%6E%74%65%6E%74%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%69%6E%6C%69%6E%65%2D%62%6C%6F%63%6B%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%2D%6C%65%66%74%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%61%6E%69%6D%61%74%69%6F%6E%3A%20%6D%61%72%71%75%65%65%20%31%35%73%20%6C%69%6E%65%61%72%20%69%6E%66%69%6E%69%74%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%77%65%69%67%68%74%3A%20%62%6F%6C%64%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%31%34%70%78%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%40%6B%65%79%66%72%61%6D%65%73%20%6D%61%72%71%75%65%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%30%25%20%7B%20%74%72%61%6E%73%66%6F%72%6D%3A%20%74%72%61%6E%73%6C%61%74%65%58%28%30%29%3B%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%31%30%30%25%20%7B%20%74%72%61%6E%73%66%6F%72%6D%3A%20%74%72%61%6E%73%6C%61%74%65%58%28%2D%31%30%30%25%29%3B%20%7D%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%4B%48%55%4E%47%20%43%48%CD%4E%48%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%6D%61%69%6E%2D%63%6F%6E%74%61%69%6E%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%77%68%69%74%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%38%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%35%70%78%20%31%35%70%78%20%72%67%62%61%28%30%2C%20%30%2C%20%30%2C%20%30%2E%32%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%78%2D%77%69%64%74%68%3A%20%34%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%65%78%74%2D%61%6C%69%67%6E%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%72%67%69%6E%3A%20%37%30%70%78%20%30%20%33%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6F%76%65%72%66%6C%6F%77%3A%20%68%69%64%64%65%6E%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%6F%73%69%74%69%6F%6E%3A%20%72%65%6C%61%74%69%76%65%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%2E%6D%61%69%6E%2D%63%6F%6E%74%61%69%6E%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%32%32%32%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%35%70%78%20%31%35%70%78%20%72%67%62%61%28%30%2C%20%30%2C%20%30%2C%20%30%2E%35%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%48%45%41%44%45%52%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%68%65%61%64%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%66%38%66%38%66%38%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%62%6F%74%74%6F%6D%3A%20%31%70%78%20%73%6F%6C%69%64%20%23%65%30%65%30%65%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%6F%73%69%74%69%6F%6E%3A%20%72%65%6C%61%74%69%76%65%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%2E%68%65%61%64%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%33%33%33%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%62%6F%74%74%6F%6D%2D%63%6F%6C%6F%72%3A%20%23%34%34%34%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%68%31%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%65%36%30%30%31%32%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%72%67%69%6E%3A%20%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%32%34%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%77%65%69%67%68%74%3A%20%37%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6C%65%74%74%65%72%2D%73%70%61%63%69%6E%67%3A%20%30%2E%35%70%78%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%4E%DA%54%20Đ%D3%4E%47%20%28%58%29%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%63%6C%6F%73%65%2D%62%74%6E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%6F%73%69%74%69%6F%6E%3A%20%61%62%73%6F%6C%75%74%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%6F%70%3A%20%31%35%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%72%69%67%68%74%3A%20%31%35%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%32%32%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%75%72%73%6F%72%3A%20%70%6F%69%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%36%36%36%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%33%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%68%65%69%67%68%74%3A%20%33%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%61%6C%69%67%6E%2D%69%74%65%6D%73%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6A%75%73%74%69%66%79%2D%63%6F%6E%74%65%6E%74%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%35%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%69%74%69%6F%6E%3A%20%61%6C%6C%20%30%2E%32%73%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%63%6C%6F%73%65%2D%62%74%6E%3A%68%6F%76%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%65%65%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%33%33%33%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%2E%63%6C%6F%73%65%2D%62%74%6E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%61%61%61%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%2E%63%6C%6F%73%65%2D%62%74%6E%3A%68%6F%76%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%34%34%34%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%66%66%66%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%4EỘ%49%20%44%55%4E%47%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%63%6F%6E%74%65%6E%74%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%32%35%70%78%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%4E%DA%54%20%42Ấ%4D%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%2D%63%6F%6E%74%61%69%6E%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6C%65%78%2D%64%69%72%65%63%74%69%6F%6E%3A%20%63%6F%6C%75%6D%6E%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%67%61%70%3A%20%31%35%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%72%67%69%6E%2D%74%6F%70%3A%20%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%62%6C%6F%63%6B%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%30%36%66%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%77%68%69%74%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%31%34%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%36%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%75%72%73%6F%72%3A%20%70%6F%69%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%31%36%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%77%65%69%67%68%74%3A%20%36%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%65%78%74%2D%64%65%63%6F%72%61%74%69%6F%6E%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%69%74%69%6F%6E%3A%20%61%6C%6C%20%30%2E%32%73%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%3A%68%6F%76%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%30%30%35%31%63%63%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%66%6F%72%6D%3A%20%74%72%61%6E%73%6C%61%74%65%59%28%2D%32%70%78%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%34%70%78%20%38%70%78%20%72%67%62%61%28%30%2C%30%2C%30%2C%30%2E%31%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%2D%6F%72%61%6E%67%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%66%66%36%62%30%30%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%2D%6F%72%61%6E%67%65%3A%68%6F%76%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%65%30%35%65%30%30%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%2D%67%72%65%65%6E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%30%30%62%33%30%30%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%2D%67%72%65%65%6E%3A%68%6F%76%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%30%30%39%39%30%30%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%2D%62%6C%75%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%33%62%35%39%39%38%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%74%6E%2D%62%6C%75%65%3A%68%6F%76%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%33%34%34%65%38%36%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%46%4F%52%4D%20%4E%48Ậ%50%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%66%6F%72%6D%2D%67%72%6F%75%70%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%72%67%69%6E%2D%62%6F%74%74%6F%6D%3A%20%31%38%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%65%78%74%2D%61%6C%69%67%6E%3A%20%6C%65%66%74%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%6C%61%62%65%6C%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%62%6C%6F%63%6B%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%72%67%69%6E%2D%62%6F%74%74%6F%6D%3A%20%38%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%77%65%69%67%68%74%3A%20%36%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%31%34%70%78%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%6C%61%62%65%6C%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%64%64%64%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%69%6E%70%75%74%5B%74%79%70%65%3D%22%74%65%78%74%22%5D%2C%0A%20%20%20%20%20%20%20%20%69%6E%70%75%74%5B%74%79%70%65%3D%22%70%61%73%73%77%6F%72%64%22%5D%2C%0A%20%20%20%20%20%20%20%20%69%6E%70%75%74%5B%74%79%70%65%3D%22%6E%75%6D%62%65%72%22%5D%2C%0A%20%20%20%20%20%20%20%20%69%6E%70%75%74%5B%74%79%70%65%3D%22%65%6D%61%69%6C%22%5D%2C%0A%20%20%20%20%20%20%20%20%69%6E%70%75%74%5B%74%79%70%65%3D%22%74%65%6C%22%5D%2C%0A%20%20%20%20%20%20%20%20%73%65%6C%65%63%74%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%31%34%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%3A%20%31%70%78%20%73%6F%6C%69%64%20%23%64%64%64%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%36%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%31%36%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%69%74%69%6F%6E%3A%20%61%6C%6C%20%30%2E%32%73%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%77%65%62%6B%69%74%2D%61%70%70%65%61%72%61%6E%63%65%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%77%68%69%74%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%33%33%33%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%69%6E%70%75%74%2C%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%73%65%6C%65%63%74%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6F%6C%6F%72%3A%20%23%33%33%33%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%63%6F%6C%6F%72%3A%20%23%34%34%34%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%65%65%65%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%69%6E%70%75%74%3A%66%6F%63%75%73%2C%20%73%65%6C%65%63%74%3A%66%6F%63%75%73%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%63%6F%6C%6F%72%3A%20%23%30%36%66%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6F%75%74%6C%69%6E%65%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%30%20%30%20%33%70%78%20%72%67%62%61%28%30%2C%31%30%32%2C%32%35%35%2C%30%2E%32%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%69%6E%70%75%74%3A%66%6F%63%75%73%2C%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%73%65%6C%65%63%74%3A%66%6F%63%75%73%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%30%20%30%20%33%70%78%20%72%67%62%61%28%30%2C%31%30%32%2C%32%35%35%2C%30%2E%35%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%3D%3D%3D%20%47%48%49%20%43%48%DA%20%3D%3D%3D%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%6E%6F%74%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%31%33%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%36%36%36%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%72%67%69%6E%2D%74%6F%70%3A%20%36%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%62%6C%6F%63%6B%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6C%69%6E%65%2D%68%65%69%67%68%74%3A%20%31%2E%34%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%62%6F%64%79%2E%64%61%72%6B%2D%6D%6F%64%65%20%2E%6E%6F%74%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%61%61%61%3B%0A%20%20%20%20%20%20%20%20
+  </html>
